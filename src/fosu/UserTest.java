@@ -1,0 +1,16 @@
+package fosu;
+
+public class UserTest {
+    public static void main(String[] args) {
+        User user = new User();
+        user.setUsername("testuser");
+        user.setPassword("123456");
+        System.out.println("用户名: " + user.getUsername());
+        System.out.println("密码: " + user.getPassword());
+
+        // 测试 setPassword 方法
+        user.setPassword("newpassword");
+        System.out.println("修改后的密码: " + user.getPassword());
+    }
+}
+
