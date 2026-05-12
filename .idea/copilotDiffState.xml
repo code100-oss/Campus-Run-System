@@ -11,14 +11,6 @@
             </PendingDiffInfo>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/src/fosu/UserTest.java">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/src/fosu/UserTest.java" />
-              <option name="updatedContent" value="package fosu;&#10;&#10;public class UserTest {&#10;    public static void main(String[] args) {&#10;        User user = new User();&#10;        user.setUsername(&quot;testuser&quot;);&#10;        user.setPassword(&quot;123456&quot;);&#10;        System.out.println(&quot;用户名: &quot; + user.getUsername());&#10;        System.out.println(&quot;密码: &quot; + user.getPassword());&#10;&#10;        // 测试 setPassword 方法&#10;        user.setPassword(&quot;newpassword&quot;);&#10;        System.out.println(&quot;修改后的密码: &quot; + user.getPassword());&#10;    }&#10;}&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
       </map>
     </option>
   </component>
