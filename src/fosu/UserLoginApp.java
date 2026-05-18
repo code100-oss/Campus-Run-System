@@ -17,6 +17,8 @@ public class UserLoginApp {
         } else {
             System.out.println("用户名或密码错误！");
         }
+        // 关闭 Scanner 释放资源
+        scanner.close();
     }
 }
 
