@@ -49,11 +49,9 @@ public class PersistentProductService extends ProductService {
 
     public void persist() {
         try {
-            List<Product> all = super.listProductsBySeller(null).stream().collect(Collectors.toList());
-            // listProductsBySeller(null) returns new ArrayList when null; but to get all values, use store values - ProductService doesn't expose store, so workaround: load IDs from test.
-            // Instead, use searchByTitle with empty keyword to get all
-            List<Product> all2 = super.searchByTitle("");
-            savedatabase.saveProductsToCsv(all2, filePath);
+            // Use public helper to get a snapshot of all products and persist.
+            List<Product> all = super.listAllProducts();
+            savedatabase.saveProductsToCsv(all, filePath);
         } catch (IOException e) {
             System.err.println("Failed to persist products: " + e.getMessage());
         }

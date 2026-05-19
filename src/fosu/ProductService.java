@@ -41,8 +41,20 @@ public class ProductService {
 	}
 
 	public List<Product> listProductsBySeller(String sellerUsername) {
-		if (sellerUsername == null) return new ArrayList<>();
-		return store.values().stream().filter(p -> sellerUsername.equals(p.getSellerUsername())).collect(Collectors.toList());
+		// When sellerUsername is null we treat it as "all sellers" and return
+		// a copy of the current product list. Returning a copy avoids accidental
+		// modifications of the internal store by callers.
+		if (sellerUsername == null) return new ArrayList<>(store.values());
+		return store.values().stream()
+				.filter(p -> sellerUsername.equals(p.getSellerUsername()))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Return a copy of all products currently stored.
+	 */
+	public List<Product> listAllProducts() {
+		return new ArrayList<>(store.values());
 	}
 
 	public List<Product> searchByTitle(String keyword) {
