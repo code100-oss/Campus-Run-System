@@ -1,66 +1,113 @@
 package fosu;
 
-import java.math.BigDecimal;
-
 public class Product {
     private String id;
+    private String sellerUsername;
     private String title;
     private String description;
-    private BigDecimal price;
+    private double price;
     private String category;
     private String condition;
-    private String seller;
+    private String status;
+    private long createdAt;
 
     public Product() {}
 
-    public Product(String id, String title, String description, BigDecimal price, String category, String condition, String seller) {
-        this.id = id;
+    public Product(String sellerUsername, String title, String description, double price, String category, String condition) {
+        this.sellerUsername = sellerUsername;
         this.title = title;
         this.description = description;
         this.price = price;
         this.category = category;
         this.condition = condition;
-        this.seller = seller;
+        this.status = "available";
+        this.createdAt = System.currentTimeMillis();
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getSellerUsername() {
+        return sellerUsername;
+    }
 
-    public BigDecimal getPrice() { return price; }
-    public void setPrice(BigDecimal price) { this.price = price; }
+    public void setSellerUsername(String sellerUsername) {
+        this.sellerUsername = sellerUsername;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public String getTitle() {
+        return title;
+    }
 
-    public String getCondition() { return condition; }
-    public void setCondition(String condition) { this.condition = condition; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-    public String getSeller() { return seller; }
-    public void setSeller(String seller) { this.seller = seller; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
 
     @Override
     public String toString() {
-        return String.format("Product{id='%s', title='%s', price=%s, category='%s', condition='%s', seller='%s'}",
-                id, title, price, category, condition, seller);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Product product = (Product) o;
-        return id != null ? id.equals(product.id) : product.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return "Product{" +
+                "id='" + id + '\'' +
+                ", sellerUsername='" + sellerUsername + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", condition='" + condition + '\'' +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
-

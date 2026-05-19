@@ -1,36 +1,53 @@
 package fosu;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class ProductService {
-    // simple in-memory store
-    protected final Map<String, Product> store = new ConcurrentHashMap<>();
+    private final Map<String, Product> store = new ConcurrentHashMap<>();
 
-    public void addProduct(Product p) {
-        if (p == null) throw new IllegalArgumentException("Product must not be null");
-        if (p.getId() == null || p.getId().trim().isEmpty()) throw new IllegalArgumentException("Product id must not be null/empty");
-        store.put(p.getId(), p);
+    public String postProduct(Product product) {
+        if (product == null || product.getSellerUsername() == null || product.getSellerUsername().isEmpty()) {
+            throw new IllegalArgumentException("Product and seller username must not be null or empty");
+        }
+        if (product.getTitle() == null || product.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Product title must not be null or empty");
+        }
+        if (product.getPrice() < 0) {
+            throw new IllegalArgumentException("Product price must not be negative");
+        }
+
+        String id = UUID.randomUUID().toString();
+        product.setId(id);
+        if (product.getCreatedAt() == 0) {
+            product.setCreatedAt(System.currentTimeMillis());
+        }
+        if (product.getStatus() == null || product.getStatus().isEmpty()) {
+            product.setStatus("available");
+        }
+        store.put(id, product);
+        return id;
     }
 
-    public Product getProduct(String id) {
+    public Product getProductById(String id) {
         if (id == null) return null;
         return store.get(id);
     }
 
-    public boolean updateProduct(String id, String title, String description, BigDecimal price, String category, String condition) {
-        Product p = store.get(id);
-        if (p == null) return false;
-        if (title != null) p.setTitle(title);
-        if (description != null) p.setDescription(description);
-        if (price != null) p.setPrice(price);
-        if (category != null) p.setCategory(category);
-        if (condition != null) p.setCondition(condition);
+    public boolean updateProduct(String id, String title, String description, Double price, String category, String condition, String status) {
+        Product product = store.get(id);
+        if (product == null) return false;
+        if (title != null && !title.isEmpty()) product.setTitle(title);
+        if (description != null) product.setDescription(description);
+        if (price != null && price >= 0) product.setPrice(price);
+        if (category != null) product.setCategory(category);
+        if (condition != null) product.setCondition(condition);
+        if (status != null) product.setStatus(status);
         return true;
     }
 
@@ -38,40 +55,14 @@ public class ProductService {
         return store.remove(id) != null;
     }
 
-    public List<Product> searchByTitle(String keyword) {
-        // if keyword is null or empty, return all products
-        if (keyword == null || keyword.trim().isEmpty()) {
-            return new ArrayList<>(store.values());
-        }
-        String k = keyword.toLowerCase();
+    public List<Product> listProductsBySeller(String sellerUsername) {
+        if (sellerUsername == null) return Collections.emptyList();
         return store.values().stream()
-                .filter(p -> {
-                    String t = p.getTitle();
-                    return t != null && t.toLowerCase().contains(k);
-                })
+                .filter(product -> sellerUsername.equals(product.getSellerUsername()))
                 .collect(Collectors.toList());
     }
 
-    public List<Product> listProductsBySeller(String seller) {
-        if (seller == null || seller.trim().isEmpty()) {
-            return new ArrayList<>(store.values());
-        }
-        String s = seller.toLowerCase();
-        return store.values().stream()
-                .filter(p -> p.getSeller() != null && p.getSeller().toLowerCase().equals(s))
-                .collect(Collectors.toList());
-    }
-
-    // safe read-only view
-    public List<Product> listAll() {
-        return Collections.unmodifiableList(new ArrayList<>(store.values()));
-    }
-
-    /**
-     * Returns number of products currently stored.
-     */
-    public int getCount() {
-        return store.size();
+    public List<Product> listAllProducts() {
+        return new ArrayList<>(store.values());
     }
 }
-
