@@ -14,6 +14,9 @@ public class Product {
     private String category;
     private String condition; // e.g., New, Like New, Used
     private String sellerUsername;
+    private String status; // e.g., AVAILABLE, SOLD, REMOVED
+    private long createdAt;
+    private long updatedAt;
 
     public Product() {}
 
@@ -25,6 +28,23 @@ public class Product {
         this.category = category;
         this.condition = condition;
         this.sellerUsername = sellerUsername;
+        this.status = "AVAILABLE";
+        long now = System.currentTimeMillis();
+        this.createdAt = now;
+        this.updatedAt = now;
+    }
+
+    public Product(Product other) {
+        this.id = other.id;
+        this.title = other.title;
+        this.description = other.description;
+        this.price = other.price;
+        this.category = other.category;
+        this.condition = other.condition;
+        this.sellerUsername = other.sellerUsername;
+        this.status = other.status;
+        this.createdAt = other.createdAt;
+        this.updatedAt = other.updatedAt;
     }
 
     public String getId() {
@@ -83,6 +103,30 @@ public class Product {
         this.sellerUsername = sellerUsername;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public long getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(long updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -92,6 +136,9 @@ public class Product {
                 ", category='" + category + '\'' +
                 ", condition='" + condition + '\'' +
                 ", seller='" + sellerUsername + '\'' +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 
